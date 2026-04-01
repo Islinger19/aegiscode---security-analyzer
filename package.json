@@ -1,0 +1,281 @@
+{
+  "name": "aegiscode---security-analyzer",
+  "displayName": "AegisCode - Security Analyzer",
+  "publisher": "sanidhya-awasthi",
+  "description": "Secure your Python code as you write with AI-powered vulnerability detection and educational fix suggestions.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Linters",
+    "Programming Languages",
+    "Education"
+  ],
+  "keywords": [
+    "python",
+    "security",
+    "vulnerability",
+    "static analysis",
+    "code security",
+    "beginner friendly"
+  ],
+  "activationEvents": [
+    "onLanguage:python"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "pythonSecurityAnalyzer.analyzeFile",
+        "title": "Analyze Current File",
+        "category": "AegisCode Utilities",
+        "icon": "$(file-code)"
+      },
+      {
+        "command": "pythonSecurityAnalyzer.analyzeWorkspace",
+        "title": "Analyze Workspace (Multi-File)",
+        "category": "AegisCode Utilities",
+        "icon": "$(folder-library)"
+      },
+      {
+        "command": "pythonSecurityAnalyzer.showPanel",
+        "title": "Show Security Analysis Panel",
+        "category": "AegisCode Utilities",
+        "icon": "$(preview)"
+      },
+      {
+        "command": "pythonSecurityAnalyzer.clearDiagnostics",
+        "title": "Clear Security Warnings",
+        "category": "AegisCode Utilities",
+        "icon": "$(clear-all)"
+      },
+      {
+        "command": "pythonSecurityAnalyzer.clearCache",
+        "title": "Clear Analysis Cache",
+        "category": "AegisCode Utilities",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "pythonSecurityAnalyzer.refreshAccountView",
+        "title": "Refresh Account",
+        "category": "AegisCode",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "pythonSecurityAnalyzer.applyFix",
+        "title": "Apply Security Fix",
+        "category": "Python Security"
+      },
+      {
+        "command": "pythonSecurityAnalyzer.applyCurrentLineFix",
+        "title": "Apply Security Fix for Current Line",
+        "category": "Python Security"
+      },
+      {
+        "command": "pythonSecurityAnalyzer.login",
+        "title": "Login with Google",
+        "category": "AegisCode",
+        "icon": "$(sign-in)"
+      },
+      {
+        "command": "pythonSecurityAnalyzer.logout",
+        "title": "Logout",
+        "category": "AegisCode",
+        "icon": "$(sign-out)"
+      },
+      {
+        "command": "pythonSecurityAnalyzer.showAuthMenu",
+        "title": "Account Settings",
+        "category": "AegisCode",
+        "icon": "$(account)"
+      },
+      {
+        "command": "pythonSecurityAnalyzer.showStats",
+        "title": "View Security Statistics",
+        "category": "AegisCode",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "pythonSecurityAnalyzer.showHistory",
+        "title": "View Analysis History",
+        "category": "AegisCode",
+        "icon": "$(history)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "pythonSecurityAnalyzer.applyCurrentLineFix",
+        "key": "ctrl+shift+.",
+        "mac": "cmd+shift+.",
+        "when": "editorTextFocus && resourceLangId == python"
+      }
+    ],
+    "configuration": {
+      "title": "Python Security Analyzer",
+      "properties": {
+        "pythonSecurityAnalyzer.serverUrl": {
+          "type": "string",
+          "default": "http://127.0.0.1:8000",
+          "description": "URL of the security analyzer backend server"
+        },
+        "pythonSecurityAnalyzer.analyzeOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically analyze files when saved"
+        },
+        "pythonSecurityAnalyzer.analyzeOnType": {
+          "type": "boolean",
+          "default": false,
+          "description": "Analyze files as you type (may impact performance)"
+        },
+        "pythonSecurityAnalyzer.analyzeOnTypeDelay": {
+          "type": "number",
+          "default": 1000,
+          "description": "Delay in milliseconds before analyzing while typing"
+        },
+        "pythonSecurityAnalyzer.minSeverity": {
+          "type": "string",
+          "default": "low",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "description": "Minimum severity level to display"
+        },
+        "pythonSecurityAnalyzer.enableAiExplanations": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable AI-powered explanations (requires backend with LLM)"
+        },
+        "pythonSecurityAnalyzer.showInlineHints": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show inline hints for vulnerabilities"
+        },
+        "pythonSecurityAnalyzer.enableInlineSuggestions": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable Copilot-like inline code suggestions for security fixes (press Tab to accept)"
+        },
+        "pythonSecurityAnalyzer.saveAnalysisHistory": {
+          "type": "boolean",
+          "default": true,
+          "description": "Save analysis results to cloud when logged in (for statistics and web dashboard)"
+        },
+        "pythonSecurityAnalyzer.saveCodeSnippetsToHistory": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include source code snippets in saved analysis history"
+        },
+        "pythonSecurityAnalyzer.multiFileAnalysis": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable cross-file vulnerability detection when analyzing workspace (detects data flow across multiple files)"
+        },
+        "pythonSecurityAnalyzer.enableCveLookup": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable automatic CVE database lookup for imported packages"
+        }
+      }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "pythonSecurityAnalyzer",
+          "title": "Security Analyzer",
+          "icon": "resources/shield.svg"
+        }
+      ]
+    },
+    "views": {
+      "pythonSecurityAnalyzer": [
+        {
+          "id": "securityAccount",
+          "name": "Account",
+          "icon": "resources/shield.svg"
+        },
+        {
+          "id": "securityVulnerabilities",
+          "name": "Vulnerabilities",
+          "icon": "resources/shield.svg"
+        },
+        {
+          "id": "securitySummary",
+          "name": "Summary",
+          "icon": "resources/shield.svg"
+        }
+      ]
+    },
+    "menus": {
+      "editor/context": [
+        {
+          "command": "pythonSecurityAnalyzer.analyzeFile",
+          "when": "resourceLangId == python",
+          "group": "1_modification"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "pythonSecurityAnalyzer.analyzeFile",
+          "when": "view == securityVulnerabilities",
+          "group": "navigation@1"
+        },
+        {
+          "command": "pythonSecurityAnalyzer.analyzeWorkspace",
+          "when": "view == securityVulnerabilities",
+          "group": "navigation@2"
+        },
+        {
+          "command": "pythonSecurityAnalyzer.clearDiagnostics",
+          "when": "view == securityVulnerabilities",
+          "group": "navigation@3"
+        },
+        {
+          "command": "pythonSecurityAnalyzer.refreshAccountView",
+          "when": "view == securityAccount",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "pythonSecurityAnalyzer.applyFix",
+          "when": "view == securityVulnerabilities && viewItem == vulnerability",
+          "group": "inline"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "npm run check-types && npm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "npm run check-types && npm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.109.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "typescript-eslint": "^8.54.0",
+    "eslint": "^9.39.2",
+    "esbuild": "^0.27.2",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.9.3",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}
