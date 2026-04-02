@@ -250,6 +250,8 @@ export class AccountTreeProvider implements vscode.TreeDataProvider<AccountTreeI
             ));
 
             // Actions
+            const dashboardConfig = vscode.workspace.getConfiguration('pythonSecurityAnalyzer');
+            const dashboardBaseUrl = dashboardConfig.get<string>('dashboardUrl') || dashboardConfig.get<string>('serverUrl') || '';
             const viewDashboardItem = new AccountTreeItem(
                 '🌐 Open Web Dashboard',
                 'View detailed analytics online',
@@ -259,7 +261,7 @@ export class AccountTreeProvider implements vscode.TreeDataProvider<AccountTreeI
             viewDashboardItem.command = {
                 command: 'vscode.open',
                 title: 'Open Dashboard',
-                arguments: [vscode.Uri.parse('http://localhost:5173/dashboard')]
+                arguments: [vscode.Uri.parse(`${dashboardBaseUrl}/dashboard`)]
             };
             items.push(viewDashboardItem);
 

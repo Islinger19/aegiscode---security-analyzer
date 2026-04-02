@@ -47,7 +47,7 @@ export interface UserStats {
 export class HistoryService {
     private static instance: HistoryService;
     private authService: AuthService;
-    private serverUrl: string = 'http://127.0.0.1:8000';
+    private serverUrl: string = '';
 
     private constructor(authService: AuthService) {
         this.authService = authService;
@@ -73,7 +73,7 @@ export class HistoryService {
 
     private updateServerUrl(): void {
         const config = vscode.workspace.getConfiguration('pythonSecurityAnalyzer');
-        this.serverUrl = config.get<string>('serverUrl', 'http://127.0.0.1:8000');
+        this.serverUrl = config.get<string>('serverUrl') || '';
     }
 
     private getAuthHeaders(): Record<string, string> {

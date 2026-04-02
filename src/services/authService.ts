@@ -179,7 +179,7 @@ export class AuthService {
     private async verifyToken(token: string): Promise<boolean> {
         try {
             const config = vscode.workspace.getConfiguration('pythonSecurityAnalyzer');
-            const serverUrl = config.get<string>('serverUrl', 'http://127.0.0.1:8000');
+            const serverUrl = config.get<string>('serverUrl') || '';
 
             const response = await axios.post(
                 `${serverUrl}/auth/verify`,
@@ -202,7 +202,7 @@ export class AuthService {
      */
     public async login(): Promise<void> {
         const config = vscode.workspace.getConfiguration('pythonSecurityAnalyzer');
-        const serverUrl = config.get<string>('serverUrl', 'http://127.0.0.1:8000');
+        const serverUrl = config.get<string>('serverUrl') || '';
 
         try {
             // Check if backend is available
@@ -257,7 +257,7 @@ export class AuthService {
         try {
             // Get user info from the backend
             const config = vscode.workspace.getConfiguration('pythonSecurityAnalyzer');
-            const serverUrl = config.get<string>('serverUrl', 'http://127.0.0.1:8000');
+            const serverUrl = config.get<string>('serverUrl') || '';
 
             const response = await axios.get(`${serverUrl}/auth/me`, {
                 headers: { Authorization: `Bearer ${token}` },
@@ -292,7 +292,7 @@ export class AuthService {
             // Notify backend (optional, token-based auth doesn't require server-side logout)
             try {
                 const config = vscode.workspace.getConfiguration('pythonSecurityAnalyzer');
-                const serverUrl = config.get<string>('serverUrl', 'http://127.0.0.1:8000');
+                const serverUrl = config.get<string>('serverUrl') || '';
 
                 if (this._authState.token) {
                     await axios.post(

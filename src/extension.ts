@@ -36,7 +36,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Initialize components
     const config = vscode.workspace.getConfiguration('pythonSecurityAnalyzer');
-    const serverUrl = config.get<string>('serverUrl', 'http://127.0.0.1:8000');
+    const serverUrl = config.get<string>('serverUrl') || '';
 
     client = new SecurityAnalyzerClient(serverUrl);
     diagnosticsManager = new DiagnosticsManager();
@@ -429,7 +429,9 @@ async function analyzeWorkspace(): Promise<void> {
             'Start Server'
         ).then(selection => {
             if (selection === 'Start Server') {
-                vscode.env.openExternal(vscode.Uri.parse('http://127.0.0.1:8000/docs'));
+                const cfg = vscode.workspace.getConfiguration('pythonSecurityAnalyzer');
+                const url = cfg.get<string>('serverUrl') || '';
+                vscode.env.openExternal(vscode.Uri.parse(`${url}/docs`));
             }
         });
         return;

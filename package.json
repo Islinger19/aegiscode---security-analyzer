@@ -1,11 +1,23 @@
 {
   "name": "aegiscode---security-analyzer",
   "displayName": "AegisCode - Security Analyzer",
-  "publisher": "sanidhya-awasthi",
+  "publisher": "SayyedFaheemuddin",
   "description": "Secure your Python code as you write with AI-powered vulnerability detection and educational fix suggestions.",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.85.0"
+    "vscode": "^1.109.0"
+  },
+  "icon": "resources/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Islinger19/aegiscode---security-analyzer"
+  },
+  "homepage": "https://github.com/Islinger19/aegiscode---security-analyzer#readme",
+  "license": "MIT",
+  "pricing": "Free",
+  "galleryBanner": {
+    "color": "#1a1a2e",
+    "theme": "dark"
   },
   "categories": [
     "Linters",
@@ -116,8 +128,8 @@
       "properties": {
         "pythonSecurityAnalyzer.serverUrl": {
           "type": "string",
-          "default": "http://127.0.0.1:8000",
-          "description": "URL of the security analyzer backend server"
+          "default": "https://oops-we-coded-again.ddnsfree.com",
+          "description": "URL of the backend analysis server. Required for analysis to work."
         },
         "pythonSecurityAnalyzer.analyzeOnSave": {
           "type": "boolean",
